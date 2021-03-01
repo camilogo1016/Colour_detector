@@ -31,7 +31,7 @@ def get_colours(img):
             r = int(r)
             colour = getColorName(r,g,b)
             colour_list.append(colour)
-    print('100.0% completed.')
+    print('100.0% completed.', end='\r')
     #returns list of color for each pixel
     return pd.DataFrame(colour_list, columns=['Color'])
 
@@ -57,8 +57,12 @@ def get_rgb(df, how_many=5):
 # Creating argument parser to take image path from command line
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--image', required=True, help="Image Path")
+ap.add_argument('-n', '--number', required=False, help="Number of Colours")
 args = vars(ap.parse_args())
 img_path = args['image']
+
+# How many colors do we want
+how_many = int(args['number'] if args['number'] else 10)
 
 # Reading the image with opencv
 img = cv2.imread(img_path)
@@ -66,9 +70,6 @@ img = cv2.imread(img_path)
 # Reading csv file with list of RGB color list
 index=["color", "color_name", "hex", "R", "G", "B"]
 csv = pd.read_csv('colors.csv', names=index, header=None)
-
-# How many colors do we want
-how_many = 10
 
 # We define the resize factor for the image
 resize_factor = 8
@@ -80,11 +81,11 @@ len_resized_y = len(resized_img)
 len_img_x = len(img[0])
 len_img_y = len(img)
 
-# It gets the colors for each pixel
+# It gets the colours for each pixel
 df = get_colours(resized_img)
 
-# Gets the RGB for each color
-r, g, b, colors = get_rgb(df, 10)
+# Gets the RGB for each colour
+r, g, b, colours = get_rgb(df, 10)
 
                         #####################------ DRAWING ---------##########################
 # Creates the window
@@ -96,22 +97,21 @@ while(1):
     longi = int(len_img_x/(how_many))
     #Create a background for the colours
     cv2.rectangle(img, (0, 0), (len_img_x, 60), (255, 255, 255), -1)
-    # cv2.putText(img,text,start,font(0-7),fontScale,color,thickness,lineType )
+    # cv2.putText(img,text,start,font(0-7),fontScale,colour,thickness,lineType )
     cv2.putText(img, 'Most important colours from the picture', (int(len_img_x/4), 20), 3, 0.8, (0,0,0), 1, cv2.LINE_AA)
     # draw each color with its name
     for i in range(how_many):
         # cv2.rectangle(image, startpoint, endpoint, color, thickness)-1 fills entire rectangle 
         cv2.rectangle(img, (longi*i + 10, 35), (longi*(i+1)-5, 58), (b[i], g[i], r[i]), -1)
         #Text for each colour
-        cv2.putText(img, colors[i], (longi*i + 15, 33), 1, 0.7, (0,0,0), 1, cv2.LINE_AA)
+        cv2.putText(img, colours[i], (longi*i + 15, 33), 1, 0.7, (0,0,0), 1, cv2.LINE_AA)
 
     # Creates the folder "results in case it doesn't exist"    
     if not os.path.exists('results'):
         os.makedirs('results')
     # Saves the image
-    cv2.imwrite('./results/result_'+img_path, img)
+    cv2.imwrite('./results/result_{}c_'.format(how_many)+img_path, img)
 
-    print("\nThe result is ready!!")
     # Break the loop when user hits 'esc' key    
     if cv2.waitKey(20) & 0xFF ==27:
         break
