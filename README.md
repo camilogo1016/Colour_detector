@@ -6,6 +6,8 @@ Steps for the algorithm
 3. The stored colours are counted and ordered by how many times it's in the picture.
 4. Finally, the script plots the image and a little rectangle for the 'n' top colours more present in the image.
 
+_The extraction takes few minutes._
+
 Output example:
 
 ![Image Result](https://github.com/camilogo1016/Colour_detector/blob/master/results/result_vivaldi.jpg?raw=true)
