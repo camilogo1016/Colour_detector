@@ -1,6 +1,4 @@
-# Colour_detector
-
-Colour detector for images
+## Colour detector for images
 
 Steps for the algorithm
 1. Takes an image path and the number of colours you want to extract.
@@ -10,4 +8,4 @@ Steps for the algorithm
 
 Output example:
 
-![Image Result](https://github.com/camilogo1016/Colour_detector/blob/master/results/result_colorpic.jpg?raw=true)
+![Image Result](https://github.com/camilogo1016/Colour_detector/blob/master/results/result_vivaldi.jpg?raw=true)
