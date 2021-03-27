@@ -1,5 +1,7 @@
 ## Colour detector for images
 
+Extracts the top 'n' colours from an image and classifies them in the most aproximate colour name from a 865 colours database.
+
 Steps for the algorithm
 1. Takes an image path and the number of colours you want to extract.
 2. Resizes it and compares every pixel with a csv file that contains 865 colours with their RGB code.
